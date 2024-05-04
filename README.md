@@ -1,6 +1,12 @@
 # XRay-Transform
 This repository provides a basis for anyone wishing to work on algorithms in medical imaging, and more specifically, in computed tomography. It focuses on X-ray and Radon transforms. Standard reconstruction techniques are available. 
 
+## References
+
+* Toft, P.; "The Radon Transform - Theory and Implementation", Ph.D. thesis, Department of Mathematical Modelling, Technical University of Denmark, June 1996.
+* Natterer, F.; "The mathematics of computerized tomography Classics in Mathematics", Society for Industrial and Applied Mathematics, New York, 2001.
+* Louis, A. K.; "Combining Image Reconstruction and Image Analysis with Application to 2D-tomography", M J. Imaging Sciences 1 pp. 188-208, 2008.
+
 
 
 ## Computerized Tomography
@@ -136,13 +142,5 @@ To switch back the fanbeam geometry to parallel beams requires the following rel
 $$x_d = \frac{(OS+OD)p}{\sqrt{OS^2-p^2}} \quad \text{and} \quad p = \frac{OS \times x_d}{\sqrt{(OS+OD)^2+x_d^2}} \%$$
 
 <p align="center">
-
-
-## References
-
-* Toft, P.; "The Radon Transform - Theory and Implementation", Ph.D. thesis, Department of Mathematical Modelling, Technical University of Denmark, June 1996.
-* Natterer, F.; "The mathematics of computerized tomography Classics in Mathematics", Society for Industrial and Applied Mathematics, New York, 2001.
-* Louis, A. K.; "Combining Image Reconstruction and Image Analysis with Application to 2D-tomography", M J. Imaging Sciences 1 pp. 188-208, 2008.
-
 <img src="./Images/CTscan_fanbeam_plane.png" alt="" width="400" height="400"/>
 </p>
