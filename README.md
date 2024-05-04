@@ -29,7 +29,10 @@ Here $p=\mathbf{x}^\top \theta$ stands for the normal form of the straight line 
 $$L(p,\theta) := \lbrace \mathbf{x} \in \mathbb{R}^2 \ : \ p = \mathbf{x}^\top \theta = x \cos \varphi + y \sin \varphi  \rbrace.\%$$
 In the 2D case, $\theta^\perp = \vartheta = (\mathbf{d}-\mathbf{s})/\Vert \mathbf{d}-\mathbf{s}\Vert$.
 
-<img src="./Images/CTscan_parallel.png" alt="" width="400" height="400"  display="block"  margin-left="auto"  margin-right="auto"/>
+<p align="center">
+<img src="./Images/CTscan_parallel.png" alt="" width="400" height="400"/>
+</p>
+
 
 
 ### Discretization
