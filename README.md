@@ -107,4 +107,28 @@ with $\beta \in \mathbb{R}$ a relaxation parameter. For a proper $\beta$, the La
 
 
 
+## Fanbeam with ring detectors
 
+This geometry can be selected with the attribute <code>modality  = 'fanbeam-ring'</code>. Here the detector set is assumed to be a circle/arc and the center of rotation of the scanner has to coincide with the center of the aforementioned circle.  The source is located arbitrarily on the axis O$y$.
+
+The parameters of the system are therefore $\varphi$, the rotation angle, and $\alpha$ the angle between the detector and the axis O$y$.
+
+
+To switch back the fanbeam geometry to parallel beams requires the following relationship regarding the detector position:
+$$\alpha = \arcsin\frac{p}{OS} + \arcsin\frac{p}{OD} \quad \text{and} \quad p = \frac{OS \cdot OD \cdot \sin \alpha}{\sqrt{OS^2+OD^2+2 OS \cdot OD \cdot \cos \alpha}}.\%$$
+
+<img src="./Images/CTscan_fanbeam_ring.png" alt="" width="400" height="400"/>
+
+
+
+## Fanbeam with plane detectors
+
+
+This geometry can be selected with the attribute <code>modality  = 'fanbeam-plane'</code>. Here the detector set is assumed to be a segment. The source is located arbitrarily but orthogonal to the detector set.
+
+The parameters of the system are therefore $\varphi$, the rotation angle, and $x_d$ the $x$-coordinate of the corresponding detector.
+
+To switch back the fanbeam geometry to parallel beams requires the following relationship regarding the detector position:
+$$x_d = \frac{(OS+OD)p}{\sqrt{OS^2-p^2}} \quad \text{and} \quad p = \frac{OS \times x_d}{\sqrt{(OS+OD)^2+x_d^2}} \%$$
+
+<img src="./Images/CTscan_fanbeam_plane.png" alt="" width="400" height="400"/>
