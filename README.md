@@ -18,3 +18,23 @@ $$\ln \frac{I(\mathbf{s},\vartheta)}{I(\mathbf{s}+r\vartheta,\vartheta)} = \int_
 Assuming that the object is compactly supported into $\Omega$ and neglecting the attenuation of the air around the object, one gets 
 $$\ln \frac{I(\mathbf{s},\vartheta)}{I(\mathbf{s}+r\vartheta,\vartheta)} = \int_{\mathbb{R}} a_E\left(\mathbf{s}+ t \vartheta \right) \mathrm{d}t \%$$
 which is simply the integral of the attenuation coefficient along the straight line passing through $s$ with direction $\vartheta$. In two dimensions, this coincides with the X-ray transform or after a suited change of variable with the well-known Radon transform.
+
+## Parallel Geometry
+
+### Radon transform (1917)
+
+Let $f\in S(\Omega)$, $\Omega \subset \mathbb{R}^2$. Then, the Radon transform maps $f$ into its line integrals
+$$\mathcal{R} f(p,\theta) := \int_{\mathbf{x}^\top \theta = p} f(\mathbf{x}) d\mathbf{x} = \int_{\Omega} \delta(\mathbf{x}^\top \theta - p) f(\mathbf{x}) d\mathbf{x} = \int_\mathbb{R} f(p\theta + t\theta^\perp)dt, \quad (p,\theta) \in \mathbb{R} \times S^1. \%$$
+Here $p=\mathbf{x}^\top \theta$ stands for the normal form of the straight line with normal vector $\theta = (\cos\varphi,\sin\varphi)^\top$, $\varphi \in [0,2\pi]$ and distance to the origin $p$. The straight line denoted by $L(p,\theta)$ is defined by
+$$L(p,\theta) := \lbrace \mathbf{x} \in \mathbb{R}^2 \ : \ p = \mathbf{x}^\top \theta = x \cos \varphi + y \sin \varphi  \rbrace.\%$$
+In the 2D case, $\theta^\perp = \vartheta = (\mathbf{d}-\mathbf{s})/\Vert \mathbf{d}-\mathbf{s}\Vert$.
+
+<img src="./Images/CTscan_parallel.png" alt="" width="400" height="400"/>
+
+
+### Discretization
+
+
+Both lines and the sinogram are discretized by two vectors $(p_k)_k$ and $(\varphi_l)_l$. For instance,  $(p_k)_k \in [-P,P]^\kappa \subset \mathbb{R}^{\kappa}$, $P>0$, and $(\varphi_l)_l = (0,\ldots,\pi(\lambda-1)/\lambda)~\in~\mathbb{R}^\lambda$. In the code below, this corresponds to 
+* <code>p = -N/2 + N*np.arange(0,1,1/Ndetector)</code> 
+* <code>phi = np.arange(0,Nrota)*np.pi/(Nrota-1)</code>
