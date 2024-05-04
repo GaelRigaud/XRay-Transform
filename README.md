@@ -36,4 +36,120 @@ In the 2D case, $\theta^\perp = \vartheta = (\mathbf{d}-\mathbf{s})/\Vert \mathb
 
 
 Both lines and the sinogram are discretized by two vectors $(p_k)_k$ and $(\varphi_l)_l$. For instance,  $(p_k)_k \in [-P,P]^\kappa \subset \mathbb{R}^{\kappa}$, $P>0$, and 
-$(\varphi_l)_l = (0,\ldots,\pi(\lambda-1)/\lambda)\in\mathbb{R}^\lambda$.
+$(\varphi_l)_l = (0,\ldots,\pi(\lambda-1)/\lambda)\in\mathbb{R}^\lambda$. Possible code:
+* <code>p = -N/2 + N*np.arange(0,1,1/Ndetector)</code> 
+* <code>phi = np.arange(0,Nrota)*np.pi/(Nrota-1)</code>
+
+In order to discretize, we first develop $f$ in a given basis $(b_i)_i$ so that
+$$
+f(x,y) = \sum_{i=1}^{n} f_i \: b_i(x,y) \ .
+$$
+The most common choice for $(b_i)_{i=1,\ldots,n}$ is the pixel basis with $n$ the total number of pixels. 
+
+The Shepp-Logan phantom is considered below.
+
+
+<!--
+It can be necessary to consider the sinogram as a vector. In this case, we simply assign $(p_k,\varphi_l)_{k,l} \in \mathbb{R}^\kappa \times \mathbb{R}^\lambda$ into $(p_{k(j)})_j,(\varphi_{l(j)})_j \in \mathbb{R}^m$ with $m := \kappa \times \lambda$. The index $j$ here characterizes a straight line $L_j := \lbrace p_{k(j)} \theta_{l(j)} + t\theta_{l(j)}^\perp \ | \ t\in \mathbb{R} \rbrace$. 
+-->
+The Radon transform defined above can be considered as the following system of linear equations from a discrete point of view:
+$$
+\mathbf{g} = \mathbf{R} \mathbf{f}, \qquad \mathbf{g} = (g_1,\ldots,g_m)^\top \in \mathbb{R}^m, \ \mathbf{f}=(f_1,\ldots,f_n)^\top \in \mathbb{R}^n, \ \ \mathbf{R}=(r_{ji})_{ji} \in \mathbb{R}^{m\times n}, \ m := \kappa \times \lambda.
+$$
+Here $\mathbf{g}$ and $\mathbf{f}$ denote flattened versions of the corresponding sinogram $g$ and image $f$.  
+
+$\mathbf{R}$ is usually called <i>projection matrix</i>. Depending on the choice of interpolation and/or physical representation, $\mathbf{R}$ can have different definitions. The class <code>RayTransform</code> can compute $\mathbf{R}$ with the method <code>computeProjectionMatrix()</code> following two options:
+* <code> method = length </code> (default): delivers entries $(r_{ji})_{ji}$ of $\mathbf{R}$ as the length of the intersection between the $j$-th straight line by $L_j$ and the $i$-th pixel $P_i$ centered at $(x_i,y_i)$.
+* <code> method = gaussian </code>: delivers entries $(r_{ji})_{ji}$ of $\mathbf{R}$ computed analytically when the basis $(b_i)_i$ corresponds to Gaussian functions centered at $(x_i,y_i)$.
+
+The matrix $\mathbf{R}$ has two possible types:
+* <code>datatype = matrix</code> (default): standard numpy.ndarray,
+* <code>datatype = sparse</code>: sparse "matrix" with type <code>dict</code> which reduces substantially the size of $\mathbf{R}$ but increases also the computation time of the reconstruction techniques.
+
+Once the projection matrix is computed, one can compute the data $g$ from $\mathbf{g} = \mathbf{Rf}$ with the method
+<code>getdata()</code>. Alternatively, it is possible to compute the data in parallel geometry from the line integrals directly without using the projection matrix via the method <code>RadonTransform()</code>.
+
+
+
+### The inverse Radon transform
+
+Let $g = \mathcal{R} f$ with $f \in S(\Omega)$, $\Omega \subset \R^2$, then
+$$
+f(x) = \frac{1}{4\pi} \mathcal{R}^\star \mathcal{I}^{-1} g(x).
+$$
+with $\mathcal{I}^{-1}$ the Riesz potential defined as 
+$$
+\mathcal{F}(\mathcal{I}^{-1} u) (\nu) = |\nu| \mathcal{F}(u)(\nu).
+$$
+The inversion formula reads 
+$$
+f = \frac{1}{4\pi} \mathcal{R}^\star \mathcal{F}^{-1}(|\nu| \cdot \hat{g}).
+$$ 
+The ill-posedness of the inverse problem $g = \mathcal{R} f$ is revealed by the growth of $|\nu|$ for high-frequencies. To regularize, one needs to apodize the frequencies with a smooth filter $\sigma_\gamma$ which leads to the well-known filtered backprojection (FBP)
+$$
+f_\gamma = \frac{1}{4\pi} \mathcal{R}^\star \mathcal{F}^{-1}(\sigma_\gamma(\nu)|\nu| \cdot \hat{g}).
+$$ 
+The resulting $f_\gamma$ can be obtained by the class method <code>FBP()</code>.
+
+### The Approximate Inverse
+
+In order to regularize the inverse problem $g = \mathcal{R} f$, the Approximate Inverse proposes to smooth the solution space, i.e.
+$$
+f^\gamma(\mathbf{x})=\langle f,e^\gamma_\mathbf{x}\rangle
+$$
+with a prescribed mollifier $e^\gamma_\mathbf{x}$ by solving the auxiliary problem 
+$$
+\mathcal{R}^* \psi^\gamma_\mathbf{x} = e^\gamma_\mathbf{x}.
+$$
+Then the reconstruction is obtained by
+$$
+f^\gamma(\mathbf{x})=\langle f,e^\gamma_\mathbf{x}\rangle = \langle f,\mathcal{R}^*\psi^\gamma_\mathbf{x}\rangle = \langle \mathcal{R}f,\psi^\gamma\rangle = \langle g,\psi^\gamma_\mathbf{x}\rangle
+$$
+and more specifically for the Radon transform by
+$$
+f^\gamma (\mathbf{x})  =\int_{S^1} \int_{-1}^1 g(p,\theta)\, \Psi^\gamma(p-\mathbf{x}^T\theta,\theta)\,\mathrm{d}p\,\mathrm{d}\theta
+$$
+where  $\psi^\gamma_\mathbf{x}=\Psi^\gamma(p-\mathbf{x}^T\theta,\theta)$.
+
+#### How to compute $\Psi^\gamma$?
+With the inversion formula of $\mathcal{R}$, it holds
+$$
+\mathcal{R}^* \Psi^\gamma = \frac{1}{2}(2\pi)^{1-n} \mathcal{R}^* \mathcal{I}^{1-n}\mathcal{R} E^\gamma\quad 
+\Rightarrow \quad \Psi^\gamma = \frac{1}{2}(2\pi)^{1-n}\mathcal{I}^{1-n}\mathcal{R} E^\gamma
+$$
+where $e^\gamma_\mathbf{x} = E_\gamma(\mathbf{y}-\mathbf{x})$. For given mollifier such as the Gaussian function then the reconstruction kernel $\psi^\gamma_\mathbf{x}$ is analytically known. This is implemented in the class method <code>ApproximateInverseRT</code>.
+
+
+### Landweber iterate (Gradient descent with constant stepsize)
+
+A standard approach to solve an inverse problem is to optimize
+$$
+\min_f \Vert \mathcal{R}f - g\Vert^2
+$$
+with $\Vert \cdot \Vert$ the $L_2$-norm or euclidean distance. The first-order optimality condition leads to the normal equation
+$$
+\mathcal{R}^* \mathcal{R} f = \mathcal{R}^* g 
+$$
+which can be turned into a fixed-point scheme
+$$
+f = f + \beta \mathcal{R}^∗ (g - \mathcal{R}f )
+$$
+with $\beta \in \mathbb{R}$ a relaxation parameter. For a proper $\beta$, the Landweber iterate converges to the minimal-norm solution. This can be seen as the gradient descent algorithm with constant stepsize and is implemented in the class method <code>Landweber_iterate()</code>.
+
+### Landweber iterate (Gradient descent with constant stepsize)
+
+A standard approach to solve an inverse problem is to optimize
+$$
+\min_f \Vert \mathcal{R}f - g\Vert^2
+$$
+with $\Vert \cdot \Vert$ the $L_2$-norm or euclidean distance. The first-order optimality condition leads to the normal equation
+$$
+\mathcal{R}^* \mathcal{R} f = \mathcal{R}^* g 
+$$
+which can be turned into a fixed-point scheme
+$$
+f = f + \beta \mathcal{R}^∗ (g - \mathcal{R}f )
+$$
+with $\beta \in \mathbb{R}$ a relaxation parameter. For a proper $\beta$, the Landweber iterate converges to the minimal-norm solution. This can be seen as the gradient descent algorithm with constant stepsize and is implemented in the class method <code>Landweber()</code>.
+
+
