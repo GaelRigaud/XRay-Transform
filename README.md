@@ -36,4 +36,4 @@ In the 2D case, $\theta^\perp = \vartheta = (\mathbf{d}-\mathbf{s})/\Vert \mathb
 
 
 Both lines and the sinogram are discretized by two vectors $(p_k)_k$ and $(\varphi_l)_l$. For instance,  $(p_k)_k \in [-P,P]^\kappa \subset \mathbb{R}^{\kappa}$, $P>0$, and 
-$(\varphi_l)_l = (0,\ldots,\pi(\lambda-1)/\lambda)~\in~\mathbb{R}^\lambda$.
+$(\varphi_l)_l = (0,\ldots,\pi(\lambda-1)/\lambda)\in\mathbb{R}^\lambda$.
