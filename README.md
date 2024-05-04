@@ -29,7 +29,7 @@ Here $p=\mathbf{x}^\top \theta$ stands for the normal form of the straight line 
 $$L(p,\theta) := \lbrace \mathbf{x} \in \mathbb{R}^2 \ : \ p = \mathbf{x}^\top \theta = x \cos \varphi + y \sin \varphi  \rbrace.\%$$
 In the 2D case, $\theta^\perp = \vartheta = (\mathbf{d}-\mathbf{s})/\Vert \mathbf{d}-\mathbf{s}\Vert$.
 
-<img src="./Images/CTscan_parallel.png" alt="" width="400" height="400"/>
+<img src="./Images/CTscan_parallel.png" alt="" width="400" height="400"  class="center"/>
 
 
 ### Discretization
@@ -117,7 +117,7 @@ The parameters of the system are therefore $\varphi$, the rotation angle, and $\
 To switch back the fanbeam geometry to parallel beams requires the following relationship regarding the detector position:
 $$\alpha = \arcsin\frac{p}{OS} + \arcsin\frac{p}{OD} \quad \text{and} \quad p = \frac{OS \cdot OD \cdot \sin \alpha}{\sqrt{OS^2+OD^2+2 OS \cdot OD \cdot \cos \alpha}}.\%$$
 
-<img src="./Images/CTscan_fanbeam_ring.png" alt="" width="400" height="400"/>
+<img src="./Images/CTscan_fanbeam_ring.png" alt="" width="400" height="400" class="center"/>
 
 
 
@@ -131,4 +131,4 @@ The parameters of the system are therefore $\varphi$, the rotation angle, and $x
 To switch back the fanbeam geometry to parallel beams requires the following relationship regarding the detector position:
 $$x_d = \frac{(OS+OD)p}{\sqrt{OS^2-p^2}} \quad \text{and} \quad p = \frac{OS \times x_d}{\sqrt{(OS+OD)^2+x_d^2}} \%$$
 
-<img src="./Images/CTscan_fanbeam_plane.png" alt="" width="400" height="400"/>
+<img src="./Images/CTscan_fanbeam_plane.png" alt="" width="400" height="400" class="center"/>
