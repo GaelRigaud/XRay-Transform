@@ -105,14 +105,6 @@ which can be turned into a fixed-point scheme
 $$f = f + \beta \mathcal{R}^∗ (g - \mathcal{R}f ) \%$$
 with $\beta \in \mathbb{R}$ a relaxation parameter. For a proper $\beta$, the Landweber iterate converges to the minimal-norm solution. This can be seen as the gradient descent algorithm with constant stepsize and is implemented in the class method <code>Landweber()</code>.
 
-### Landweber iterate (Gradient descent with constant stepsize)
 
-A standard approach to solve an inverse problem is to optimize
-$$\min_f \Vert \mathcal{R}f - g\Vert^2 \%$$
-with $\Vert \cdot \Vert$ the $L_2$-norm or euclidean distance. The first-order optimality condition leads to the normal equation
-$$\mathcal{R}^* \mathcal{R} f = \mathcal{R}^* g \%$$
-which can be turned into a fixed-point scheme
-$$f = f + \beta \mathcal{R}^∗ (g - \mathcal{R}f )\%$$
-with $\beta \in \mathbb{R}$ a relaxation parameter. For a proper $\beta$, the Landweber iterate converges to the minimal-norm solution. This can be seen as the gradient descent algorithm with constant stepsize and is implemented in the class method <code>Landweber()</code>.
 
 
