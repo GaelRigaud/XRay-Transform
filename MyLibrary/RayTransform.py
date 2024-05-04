@@ -139,7 +139,7 @@ References
 ----------
     Toft, P.; "The Radon Transform - Theory and Implementation", 
         	Ph.D. thesis, Department of Mathematical Modelling, Technical 
-            versity of Denmark, June 1996.
+            University of Denmark, June 1996.
 
     Natterer, F.; "The mathematics of computerized tomography Classics 
             in Mathematics",
